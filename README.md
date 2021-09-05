@@ -5,7 +5,7 @@ ___
 
 ### Users
 | Manager|Supervisor| Donor|
-| ------------- |:-------------:| -----:|
+| :-------------: |:-------------:| :-----:|
 | Login/Create Account |Login/Create Account|Login/Create Account|
 | Approve/Cancel Blood Drives| Add/Delete Donor|Update- Name & Address|
 
