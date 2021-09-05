@@ -9,9 +9,11 @@ ___
 | Login/Create Account |Login/Create Account|Login/Create Account|
 | Approve/Cancel Blood Drives| Add/Delete Donor|Update- Name & Address|
 
+
 ___
 
 ### Types of Users & Their Roles
+___
     1. Manager : Only manager can approve/disapprove upcoming Blood donation drives if Donors are less than 20 or because of Weather.
 
     2. Supervisor : Can manage(add,update/delete) blood drives to be scheduled and send information to manager for approval based on donor criteria.
