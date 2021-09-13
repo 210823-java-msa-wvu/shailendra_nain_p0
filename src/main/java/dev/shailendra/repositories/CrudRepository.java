@@ -13,7 +13,7 @@ public interface CrudRepository<T> {
     List<T> getAll();
 
     //Update
-    void update(Integer id);
+    void update(T t);
 
     //Delete
     void delete(Integer id);

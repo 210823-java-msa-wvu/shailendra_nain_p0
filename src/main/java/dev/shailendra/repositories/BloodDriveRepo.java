@@ -65,7 +65,6 @@ public class BloodDriveRepo implements CrudRepository<BloodDrive> {
                         rs.getString("drive_address")
                 );
                 bloodDrives.add(bd);
-
             }
             return bloodDrives;
         }catch(SQLException e){
@@ -75,12 +74,30 @@ public class BloodDriveRepo implements CrudRepository<BloodDrive> {
     }
 
     @Override
-    public void update(Integer id) {
+    public void update(BloodDrive d) {
+        try(Connection conn = cu.getConnection()){
+            String sql = "update drives set drive_name = ?, drive_address = ? where drive_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, d.getDriveName());
+            ps.setString(2, d.getDriveAddress());
+            ps.setInt(3, d.getDriveId());
+            ps.execute();
 
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void delete(Integer id) {
+        try(Connection conn = cu.getConnection()){
+            String sql = "delete from drives where drive_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
 
     }
 }

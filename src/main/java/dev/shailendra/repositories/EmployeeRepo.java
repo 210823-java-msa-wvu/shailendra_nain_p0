@@ -14,7 +14,7 @@ public class EmployeeRepo implements CrudRepository<Employee>{
     @Override
     public Employee add(Employee employee) {
         try(Connection conn = cu.getConnection()){
-            String sql = "insert into employees where id = ?";
+            String sql = "insert into employees values (default, ?, ?, ? ,? )returning *";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,employee.getEmpFirstName());
             ps.setString(2, employee.getEmpLastName());
@@ -32,7 +32,7 @@ public class EmployeeRepo implements CrudRepository<Employee>{
         return null;
     }
 
-    public Employee getByName(String employeeUsername){
+    public Employee getByUsername(String employeeUsername){
         try(Connection conn = cu.getConnection()){
             String sql = "select * from employees where emp_username = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -55,6 +55,24 @@ public class EmployeeRepo implements CrudRepository<Employee>{
     }
     @Override
     public Employee getById(Integer id) {
+        try(Connection conn = cu.getConnection()){
+            String sql = "SELECT emp_id, emp_firstname, emp_lastname, emp_username, emp_password FROM employees WHERE emp_id=?;";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Employee e = new Employee(
+                        rs.getInt("emp_id"),
+                rs.getString("emp_firstname"),
+                rs.getString("emp_lastname"),
+                rs.getString("emp_username"),
+                rs.getString("emp_password")
+                );
+                return e;
+            }
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -64,8 +82,17 @@ public class EmployeeRepo implements CrudRepository<Employee>{
     }
 
     @Override
-    public void update(Integer id) {
-
+    public void update(Employee emp) {
+        try(Connection conn = cu.getConnection()){
+            String sql = "update employees set emp_firstname = ? , emp_lastname = ? where emp_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, emp.getEmpFirstName());
+            ps.setString(2, emp.getEmpLastName());
+            ps.setInt(3, emp.getEmployeeId());
+            ps.execute();
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
