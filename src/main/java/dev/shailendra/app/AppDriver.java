@@ -12,22 +12,11 @@ import dev.shailendra.views.employee.EmployeeSubMenu;
 
 import java.util.Scanner;
 
+
+
 public class AppDriver {
     public static Scanner scan = new Scanner(System.in);
 
-
-    private static BloodDriveRepo driveRepo = new BloodDriveRepo();
-    private static EmployeeRepo employeeRepo = new EmployeeRepo();
-    private static DonorRepo donorRepo = new DonorRepo();
-    private static RegistrationRepo regrepo = new RegistrationRepo();
-
-
-    private static BloodDriveServices bloodDriveServices = new BloodDriveServices();
-    private static EmployeeServices employeeServices = new EmployeeServices();
-
-    private static EmployeeMenu esm = new EmployeeMenu();
-    private static EmployeeSubMenu esb = new EmployeeSubMenu();
-    private static DonorMenu dm = new DonorMenu();
 
     private static boolean appRunning = true;
 
@@ -43,10 +32,10 @@ public class AppDriver {
                     userInput = scan.nextLine();
                     switch(userInput){
                         case "1" :
-                            esm.employeeMenu(userInput);
+                            EmployeeMenu.employeeMenu(userInput);
                             break;
                         case "2" :
-                            esb.subMenu(userInput);
+                            EmployeeSubMenu.subMenu(userInput);
                             break;
                     }
                     break;
@@ -55,7 +44,7 @@ public class AppDriver {
                         userInput = scan.nextLine();
                         switch (userInput){
                             case "1" :
-                                dm.menu();
+                                    DonorMenu.donorMenu(userInput);
                                 break;
                         }
 

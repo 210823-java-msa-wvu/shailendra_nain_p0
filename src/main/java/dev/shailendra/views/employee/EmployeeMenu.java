@@ -3,9 +3,11 @@ package dev.shailendra.views.employee;
 import dev.shailendra.models.BloodDrive;
 import dev.shailendra.models.Donor;
 import dev.shailendra.models.Employee;
+import dev.shailendra.models.Registration;
 import dev.shailendra.repositories.BloodDriveRepo;
 import dev.shailendra.repositories.DonorRepo;
 import dev.shailendra.repositories.EmployeeRepo;
+import dev.shailendra.repositories.RegistrationRepo;
 import dev.shailendra.services.EmployeeServices;
 import dev.shailendra.services.BloodDriveServices;
 
@@ -22,6 +24,7 @@ public class EmployeeMenu {
     private static BloodDriveRepo driveRepo = new BloodDriveRepo();
     private static EmployeeRepo employeeRepo = new EmployeeRepo();
     private static DonorRepo donorRepo = new DonorRepo();
+    private static RegistrationRepo registrationRepo = new RegistrationRepo();
 
 
     public static void employeeMenu(String userInput) {
@@ -89,7 +92,8 @@ public class EmployeeMenu {
                                 listAllDrives();
                             break;
                         case "5":
-
+                            System.out.println("Details of Applicants registered for Donations\n");
+                                registrationRepo.getAllDetails();
 
                             break;
                         case "6" :
@@ -133,7 +137,5 @@ public class EmployeeMenu {
         }
     }
 
-    public static void listAllApplicants(){
 
-          }
 }

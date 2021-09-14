@@ -1,6 +1,7 @@
 package dev.shailendra.repositories;
 
 import dev.shailendra.models.Donor;
+import dev.shailendra.models.Employee;
 import dev.shailendra.utils.ConnectionUtil;
 
 import java.sql.Connection;
@@ -56,7 +57,27 @@ public class DonorRepo implements CrudRepository<Donor>{
 
         return null;
     }
-
+    public Donor getByUsername(String donorusername){
+        try(Connection conn = cu.getConnection()){
+            String sql = "select * from donors where dusername = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, donorusername);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                Donor d = new Donor(
+                        rs.getInt("d_id"),
+                        rs.getString("dfirst_name"),
+                        rs.getString("dlast_name"),
+                        rs.getString("dusername"),
+                        rs.getString("dpassword")
+                );
+                return d;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     @Override
     public List<Donor> getAll() {
         List<Donor> donors = new ArrayList<>();
@@ -84,13 +105,11 @@ public class DonorRepo implements CrudRepository<Donor>{
     @Override
     public void update(Donor donor) {
         try(Connection conn = cu.getConnection()){
-            String sql = "update donors set dfirst_name = ?, dlast_name = ?, dusername=?, dpassword=? where d_id = ?";
+            String sql = "update donors set dfirst_name = ?, dlast_name = ? where d_id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1,donor.getDonFirstName());
             ps.setString(2,donor.getDonLastName());
-            ps.setString(3, donor.getDonUsername());
-            ps.setString(4, donor.getDonPassword());
-            ps.setInt(5,donor.getDonorId());
+            ps.setInt(3,donor.getDonorId());
             ps.execute();
             System.out.println("Donor successfully updated");
         }catch(SQLException e){
