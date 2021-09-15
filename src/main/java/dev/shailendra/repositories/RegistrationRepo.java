@@ -95,10 +95,11 @@ public class RegistrationRepo implements CrudRepository<Registration>{
             e.printStackTrace();
         }
     }
+
     public void getAllDetails(){
         List<Registration> registrationsList = new ArrayList<>();
         try(Connection conn = cu.getConnection()){
-            String sql = "select drive_name, dfirst_name, dlast_name, reg_health, reg_dob, reg_approval from donors d\n" +
+            String sql = "select reg_id, drive_name, dfirst_name, dlast_name, reg_health, reg_dob, reg_approval from donors d\n" +
                     "inner join registration r \n" +
                     "on d.d_id = r.donor_id \n" +
                     "inner join drives d2 \n" +
@@ -107,13 +108,14 @@ public class RegistrationRepo implements CrudRepository<Registration>{
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()){
+                int regID = rs.getInt("reg_id");
                 String driveName =  rs.getString("drive_name");
                 String donorFirstName = rs.getString("dfirst_name");
                 String donorLastName = rs.getString("dlast_name");
                 String health = rs.getString("reg_health");
                 int donorage = rs.getInt("reg_dob");
                 String approval = rs.getString("reg_approval");
-                System.out.println("Drive Name : " + driveName +" |  Donor Name : "+donorFirstName +" "+donorLastName +"  | Health Status : "+health +" | Age : "+ donorage +" | Approval Status : "+ approval +"\n\n\n");
+                System.out.println("ID : "+ regID + " | Drive Name : " + driveName +" |  Donor Name : "+donorFirstName +" "+donorLastName +"  | Health Status : "+health +" | Age : "+ donorage +" | Approval Status : "+ approval +"\n");
             }
 
         }catch (SQLException e){
@@ -121,6 +123,37 @@ public class RegistrationRepo implements CrudRepository<Registration>{
         }
 
     }
+
+    public void getAllDetailsByID(int id){
+        List<Registration> registrationsList = new ArrayList<>();
+        try(Connection conn = cu.getConnection()){
+            String sql = "select reg_id, drive_name, dfirst_name, dlast_name, reg_health, reg_dob, reg_approval from donors d\n" +
+                    "inner join registration r \n" +
+                    "on d.d_id = r.donor_id \n" +
+                    "inner join drives d2 \n" +
+                    "on d2.drive_id = r.drive_id " +
+                    "where reg_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1,id);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                int regID = rs.getInt("reg_id");
+                String driveName =  rs.getString("drive_name");
+                String donorFirstName = rs.getString("dfirst_name");
+                String donorLastName = rs.getString("dlast_name");
+                String health = rs.getString("reg_health");
+                int donorage = rs.getInt("reg_dob");
+                String approval = rs.getString("reg_approval");
+                System.out.println("ID : "+ regID + " | Drive Name : " + driveName +" |  Donor Name : "+donorFirstName +" "+donorLastName +"  | Health Status : "+health +" | Age : "+ donorage +" | Approval Status : "+ approval +"\n");
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+    }
+
     @Override
     public void delete(Integer id) {
 

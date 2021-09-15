@@ -12,6 +12,7 @@
 
 #Connection files
 \resources\connection.properties
+\target\classes\connection.properties
 # Package Files #
 *.jar
 *.war

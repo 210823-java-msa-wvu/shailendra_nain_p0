@@ -10,6 +10,7 @@ import dev.shailendra.repositories.EmployeeRepo;
 import dev.shailendra.repositories.RegistrationRepo;
 import dev.shailendra.services.EmployeeServices;
 import dev.shailendra.services.BloodDriveServices;
+import dev.shailendra.services.RegistrationServices;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -25,6 +26,7 @@ public class EmployeeMenu {
     private static EmployeeRepo employeeRepo = new EmployeeRepo();
     private static DonorRepo donorRepo = new DonorRepo();
     private static RegistrationRepo registrationRepo = new RegistrationRepo();
+    private static RegistrationServices registrationServices = new RegistrationServices();
 
 
     public static void employeeMenu(String userInput) {
@@ -60,7 +62,7 @@ public class EmployeeMenu {
                             break;
 
                         case "2":
-                            listAllDrives();
+                            EmployeeServices.listAllDrives();
                             System.out.println("Select Drive Id to Update");
                             int input = scan.nextInt();
                             scan.nextLine();
@@ -73,7 +75,7 @@ public class EmployeeMenu {
                             System.out.println("Drive Id " + input + " updated");
                             break;
                         case "3":
-                            listAllDrives();
+                            EmployeeServices.listAllDrives();
                              try{
                                  System.out.println("Please Enter the ID");
                                  input = scan.nextInt();
@@ -89,12 +91,19 @@ public class EmployeeMenu {
                         }break;
 
                         case "4":
-                                listAllDrives();
+                                EmployeeServices.listAllDrives();
                             break;
                         case "5":
                             System.out.println("Details of Applicants registered for Donations\n");
                                 registrationRepo.getAllDetails();
-
+                            System.out.println("Please choose an ID");
+                            int inputId = scan.nextInt();
+                            scan.nextLine();
+                            System.out.println("Please Enter Approve/Deny");
+                            String approval = scan.nextLine();
+                            Registration registration = registrationServices.updateApproval(inputId, approval);
+                            registrationRepo.update(registration);
+                            registrationRepo.getAllDetailsByID(inputId);
                             break;
                         case "6" :
                             System.out.println("Please select your ID");
@@ -106,7 +115,7 @@ public class EmployeeMenu {
                             String newLastName = scan.nextLine();
                             Employee update = es.updateEmpinfo(id,newFirstName,newLastName);
                             employeeRepo.update(update);
-                            System.out.println("Details updated");
+
                             break;
                         case "7" :
                             System.out.println("Logout\n");
@@ -122,20 +131,4 @@ public class EmployeeMenu {
             }
         }
     }
-
-    public static void listAllDrives(){
-        List<BloodDrive> bloodDriveList = new ArrayList<>(driveRepo.getAll());
-        System.out.println("Drives Names & Address :");
-        for (BloodDrive drive : bloodDriveList){
-            Integer driveId = drive.getDriveId();
-            String dName = drive.getDriveName();
-            String dAddress = drive.getDriveAddress();
-            System.out.println(
-                    "ID : " + driveId +
-                            " | Drive Name : " + dName +
-                            " | Address : " + dAddress);
-        }
-    }
-
-
 }

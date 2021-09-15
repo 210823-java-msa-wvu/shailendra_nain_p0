@@ -1,5 +1,6 @@
 package dev.shailendra.views.donor;
 
+import dev.shailendra.exceptions.NullPointerException;
 import dev.shailendra.models.BloodDrive;
 import dev.shailendra.models.Donor;
 import dev.shailendra.models.Employee;
@@ -10,6 +11,7 @@ import dev.shailendra.repositories.RegistrationRepo;
 import dev.shailendra.services.DonorServices;
 import dev.shailendra.services.EmployeeServices;
 import dev.shailendra.services.BloodDriveServices;
+import org.postgresql.util.PSQLException;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -43,25 +45,26 @@ public class DonorMenu {
                                         userInput = scan.nextLine();
                                         switch (userInput) {
                                                 case "1":
-                                                        listAllDrives();
+
+                                                    EmployeeServices.listAllDrives();
                                                         System.out.println("Please Enter Yes/No for Health");
                                                         String health = scan.nextLine();
                                                         System.out.println("Please Enter your age");
                                                         int age = scan.nextInt();
                                                         scan.nextLine();
-                                                        System.out.println("Please Type Register");
-                                                        String register = scan.nextLine();
+                                                        String registerDefaultValue = "Pending";
                                                         int donorID = donorRepo.getByUsername(userName).getDonorId();
                                                         System.out.println("Please Select the Drive Id");
                                                         int driveID = scan.nextInt();
                                                         scan.nextLine();
-                                                        Registration registration = new Registration(health, age, register, donorID, driveID);
+                                                        Registration registration = new Registration(health, age, registerDefaultValue, donorID, driveID);
                                                         registrationRepo.add(registration);
+
                                                         break;
 
                                                 case "2":
 
-                                                        donorID = donorRepo.getByUsername(userName).getDonorId();
+                                                       donorID = donorRepo.getByUsername(userName).getDonorId();
                                                         System.out.println("Please Enter your First Name");
                                                         String firstName = scan.nextLine();
                                                         System.out.println("Please Enter your Last Name");

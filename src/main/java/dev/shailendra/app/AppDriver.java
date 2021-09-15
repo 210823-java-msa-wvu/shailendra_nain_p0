@@ -9,7 +9,7 @@ import dev.shailendra.services.EmployeeServices;
 import dev.shailendra.views.donor.DonorMenu;
 import dev.shailendra.views.employee.EmployeeMenu;
 import dev.shailendra.views.employee.EmployeeSubMenu;
-
+import dev.shailendra.views.donor.DonorSubMenu;
 import java.util.Scanner;
 
 
@@ -35,7 +35,7 @@ public class AppDriver {
                             EmployeeMenu.employeeMenu(userInput);
                             break;
                         case "2" :
-                            EmployeeSubMenu.subMenu(userInput);
+                            EmployeeSubMenu.subMenu();
                             break;
                     }
                     break;
@@ -45,6 +45,9 @@ public class AppDriver {
                         switch (userInput){
                             case "1" :
                                     DonorMenu.donorMenu(userInput);
+                                break;
+                            case "2" :
+                                    DonorSubMenu.donorRegistration();
                                 break;
                         }
 
@@ -58,7 +61,7 @@ public class AppDriver {
                     break;
             }
 
-        }
+            }
         }
 
 

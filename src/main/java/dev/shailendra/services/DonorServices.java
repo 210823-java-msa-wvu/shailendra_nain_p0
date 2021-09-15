@@ -1,11 +1,16 @@
 package dev.shailendra.services;
 
+import dev.shailendra.exceptions.NullPointerException;
+import dev.shailendra.exceptions.PSQLException;
+import dev.shailendra.models.BloodDrive;
 import dev.shailendra.models.Donor;
 import dev.shailendra.models.Employee;
+import dev.shailendra.repositories.BloodDriveRepo;
 import dev.shailendra.repositories.DonorRepo;
 
 public class DonorServices {
     static DonorRepo donorRepo = new DonorRepo();
+    static BloodDriveRepo driveRepo = new BloodDriveRepo();
 
     public static boolean login(String username, String password){
         Donor d = donorRepo.getByUsername(username);
@@ -17,15 +22,16 @@ public class DonorServices {
         return false;
     }
 
-    public boolean checkId(int input){
-        Donor id = donorRepo.getById(input);
-        if(id.getDonorId() == input){
+    public boolean checkDriveID(int input){
+        BloodDrive drive = driveRepo.getById(input);
+        if(drive.getDriveId() == input){
             return true;
-        }else if(input != id.getDonorId()){
+        }else if(input != drive.getDriveId()) {
             return false;
         }
         return false;
     }
+
 
     public Donor updateDoninfo(int id , String firstname, String lastname){
         Donor d = new Donor();
